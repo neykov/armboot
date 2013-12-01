@@ -9,7 +9,7 @@ Requirements:
 -------------
   * arm-none-eabi toolchain
   * llvm-3.4 toolchain
-  * rustc (tested with 0.7) with the patch at https://raw.github.com/neykov/armboot/master/rustc.patch applied (works even when compiled only for x86 target)
+  * rustc (tested with trunk version of pre-0.9, for rust 0.7 see branch "rust-0.7")
 
 Compiling:
 ----------

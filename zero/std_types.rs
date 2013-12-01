@@ -14,4 +14,5 @@ pub type ptrdiff_t = i32;
 pub type clock_t = i32;
 pub type time_t = i32;
 pub type wchar_t = i32;
+pub type uint32_t = u32;
 

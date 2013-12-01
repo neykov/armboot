@@ -1,9 +1,9 @@
 # Put your stlink folder here so make burn will work.
 STLINK=~/stlink.git
-RUSTC=/opt/armrust/bin/rustc
+RUSTC=/opt/rust/bin/rustc
 
 # Put your source files here (or *.c, etc)
-SRCS=zero/zero.c sys/system_stm32f4xx.c
+SRCS=sys/system_stm32f4xx.c
 
 # Binaries will be generated with this name (.elf, .bin, .hex, etc)
 PROJ_NAME=blinky
@@ -30,10 +30,8 @@ all: clean proj
 proj: $(PROJ_NAME).elf
 
 main.s: main.rs
-	$(RUSTC) --target arm-linux-noeabi --lib -c main.rs -S -o main.ll --emit-llvm -A non-uppercase-statics -A unused-imports
-	sed -i 's/fixedstacksegment //g' main.ll
-	sed -i 's/arm-unknown-linux-gnueabihf/arm-none-eabi/g' main.ll
-	llc-3.4 -march=thumb -mattr=+thumb2 -mcpu=cortex-m4 --float-abi=hard -asm-verbose main.ll -o=main.s
+	$(RUSTC) --target arm-linux-eabi --lib -c main.rs -S --emit-llvm -A non-uppercase-statics -A unused-imports
+	llc-3.4 -mtriple arm-none-eabi -march=thumb -mattr=+thumb2 -mcpu=cortex-m4 --float-abi=hard --asm-verbose=false main.ll -o=main.s
 	sed -i 's/.note.rustc,"aw"/.note.rustc,"a"/g' main.s
 
 $(PROJ_NAME).elf: $(SRCS) main.s

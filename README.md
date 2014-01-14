@@ -8,13 +8,13 @@ The current version supports only static memory allocation and no stack pointer 
 Requirements:
 -------------
   * arm-none-eabi toolchain
-  * llvm-3.4 toolchain
-  * rustc (tested with trunk version of pre-0.9, for rust 0.7 see branch "rust-0.7")
+  * llvm-3.5 toolchain
+  * rustc (requires Rust 0.9)
 
 Compiling:
 ----------
 
-Edit "Makefile" with the path to the patched rustc compiler and type "make".
+Edit "Makefile" with the path to the rustc compiler and type "make".
 
 Upload the resulting binary (one of blinky.{elf, bin, hex}) on the target.
 

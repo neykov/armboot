@@ -3,7 +3,7 @@
 #[feature(macro_rules)];
 #[feature(globs)];
 
-#[link(package_id = "blinky", name="main", vers = "0.2", author = "Svetoslav Neykov")];
+#[crate_id="blinky#0.3"];
 
 use zero::std_types::*;
 use libarm::stm32f4xx::*;

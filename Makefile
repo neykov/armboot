@@ -1,6 +1,7 @@
 # Put your stlink folder here so make burn will work.
 STLINK=~/stlink.git
-RUSTC=/opt/rust/bin/rustc
+RUSTC=/opt/rust-0.9/bin/rustc
+LLC=llc-3.5
 
 # Put your source files here (or *.c, etc)
 SRCS=sys/system_stm32f4xx.c
@@ -29,18 +30,18 @@ all: clean proj
 
 proj: $(PROJ_NAME).elf
 
-main.s: main.rs
-	$(RUSTC) --target arm-linux-eabi --lib -c main.rs -S --emit-llvm -A non-uppercase-statics -A unused-imports
-	llc-3.4 -mtriple arm-none-eabi -march=thumb -mattr=+thumb2 -mcpu=cortex-m4 --float-abi=hard --asm-verbose=false main.ll -o=main.s
-	sed -i 's/.note.rustc,"aw"/.note.rustc,"a"/g' main.s
+blinky.s: main.rs
+	$(RUSTC) --target arm-linux-eabi --lib -c main.rs -S --emit-llvm -A non-uppercase-statics -A unused-imports -A dead_code
+	$(LLC) -mtriple arm-none-eabi -march=thumb -mattr=+thumb2 -mcpu=cortex-m4 --float-abi=hard --asm-verbose=false blinky.ll -o=blinky.s
+	sed -i 's/.note.rustc,"aw"/.note.rustc,"a"/g' blinky.s
 
-$(PROJ_NAME).elf: $(SRCS) main.s
+$(PROJ_NAME).elf: $(SRCS) blinky.s
 	$(CC) $(CFLAGS) $^ -o $@ 
 	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(PROJ_NAME).elf $(PROJ_NAME).bin
 
 clean:
-	rm -f *.o $(PROJ_NAME).elf $(PROJ_NAME).hex $(PROJ_NAME).bin main.s main.ll
+	rm -f *.o $(PROJ_NAME).elf $(PROJ_NAME).hex $(PROJ_NAME).bin $(PROJ_NAME).s $(PROJ_NAME).ll
 
 # Flash the STM32F4
 burn: proj

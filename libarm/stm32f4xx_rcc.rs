@@ -1,4 +1,4 @@
-#[macro_escape];
+#![macro_escape]
 
 /* Bit definition for RCC_AHB1ENR register */
 macro_rules! RCC_AHB1ENR_GPIOAEN (() =>           (0x00000001u32 as uint32_t);)

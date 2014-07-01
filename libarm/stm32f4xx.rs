@@ -1,4 +1,4 @@
-#[macro_escape];
+#![macro_escape]
 
 use zero::std_types::*;
 

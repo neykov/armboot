@@ -9,7 +9,7 @@ Requirements:
 -------------
   * arm-none-eabi toolchain
   * llvm-3.5 toolchain
-  * rustc (requires Rust 0.9)
+  * rustc (requires Rust 0.10)
 
 Compiling:
 ----------

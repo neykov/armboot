@@ -1,9 +1,9 @@
-#[allow(ctypes)];
-#[no_std];
-#[feature(macro_rules)];
-#[feature(globs)];
+#![allow(ctypes)]
+#![no_std]
+#![feature(macro_rules)]
+#![feature(globs)]
 
-#[crate_id="blinky#0.3"];
+#![crate_id="blinky#0.3.1"]
 
 use zero::std_types::*;
 use libarm::stm32f4xx::*;
@@ -14,7 +14,7 @@ mod zero {
 }
 
 mod libarm {
-	#[macro_escape];
+	#![macro_escape]
 	pub mod stm32f4xx;
 	pub mod stm32f4xx_gpio;
 	pub mod stm32f4xx_rcc;
@@ -31,7 +31,7 @@ static LED :u32 = LED_RED;
 pub extern "C" fn TIM2_IRQHandler() {
 	let TIM2 = TIM2();
 	let GPIOD = GPIOD();
-	let toggle_led = (1 << LED);
+	let toggle_led = 1 << LED;
 
 	// flash on update event
 	if TIM2.SR & TIM_SR_UIF!() > 0 {

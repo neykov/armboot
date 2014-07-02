@@ -11,14 +11,14 @@ use libarm::stm32f4xx::*;
 
 /* Exported types ------------------------------------------------------------*/
 macro_rules! IS_GPIO_ALL_PERIPH (($PERIPH:ident) => ((($PERIPH) == GPIOA) ||
-													 (($PERIPH) == GPIOB) || 
-													 (($PERIPH) == GPIOC) ||
-													 (($PERIPH) == GPIOD) ||
-													 (($PERIPH) == GPIOE) ||
-													 (($PERIPH) == GPIOF) ||
-													 (($PERIPH) == GPIOG) ||
-													 (($PERIPH) == GPIOH) ||
-													 (($PERIPH) == GPIOI));)
+                                                     (($PERIPH) == GPIOB) || 
+                                                     (($PERIPH) == GPIOC) ||
+                                                     (($PERIPH) == GPIOD) ||
+                                                     (($PERIPH) == GPIOE) ||
+                                                     (($PERIPH) == GPIOF) ||
+                                                     (($PERIPH) == GPIOG) ||
+                                                     (($PERIPH) == GPIOH) ||
+                                                     (($PERIPH) == GPIOI));)
                                                                 
 /* 
   * GPIO Configuration Mode enumeration 
@@ -30,7 +30,7 @@ macro_rules! GPIO_Mode_AF (() => (0x02u32 as c_uint);) /*< GPIO Alternate functi
 macro_rules! GPIO_Mode_AN (() => (0x03u32 as c_uint);)  /*< GPIO Analog Mode */
 
 macro_rules! IS_GPIO_MODE (($MODE:ident) => ((($MODE) == GPIO_Mode_IN!())  || (($MODE) == GPIO_Mode_OUT!()) ||
-											 (($MODE) == GPIO_Mode_AF!())|| (($MODE) == GPIO_Mode_AN!()));)
+                                             (($MODE) == GPIO_Mode_AF!())|| (($MODE) == GPIO_Mode_AN!()));)
 
 /* 
   * GPIO Output type enumeration 
@@ -50,7 +50,7 @@ macro_rules! GPIO_Speed_25MHz (() => (0x01u32 as c_uint);) /*< Medium speed */
 macro_rules! GPIO_Speed_50MHz (() => (0x02u32 as c_uint);) /*< Fast speed */
 macro_rules! GPIO_Speed_100MHz (() => (0x03u32 as c_uint);)  /*< High speed on 30 pF (80 MHz Output max speed on 15 pF) */
 macro_rules! IS_GPIO_SPEED (($SPEED:ident) => ((($SPEED) == GPIO_Speed_2MHz!()) || (($SPEED) == GPIO_Speed_25MHz!()) ||
-											   (($SPEED) == GPIO_Speed_50MHz!())||  (($SPEED) == GPIO_Speed_100MHz!()));)
+                                               (($SPEED) == GPIO_Speed_50MHz!())||  (($SPEED) == GPIO_Speed_100MHz!()));)
 
 /* 
   * GPIO Configuration PullUp PullDown enumeration 
@@ -60,7 +60,7 @@ macro_rules! GPIO_PuPd_NOPULL (() => (0x00u32 as c_uint);)
 macro_rules! GPIO_PuPd_UP (() => (0x01u32 as c_uint);)
 macro_rules! GPIO_PuPd_DOWN (() => (0x02u32 as c_uint);)
 macro_rules! IS_GPIO_PUPD (($PUPD:ident) => ((($PUPD) == GPIO_PuPd_NOPULL!()) || (($PUPD) == GPIO_PuPd_UP!()) ||
-											 (($PUPD) == GPIO_PuPd_DOWN!()));)
+                                             (($PUPD) == GPIO_PuPd_DOWN!()));)
 
 /* 
   * GPIO Bit SET and Bit RESET enumeration 
@@ -75,19 +75,19 @@ macro_rules! IS_GPIO_BIT_ACTION (($ACTION:ident) => ((($ACTION) == Bit_RESET!())
   *  GPIO Init structure definition  
   */ 
 pub struct GPIO_InitTypeDef {
-  GPIO_Pin :uint32_t,              /*< Specifies the GPIO pins to be configured.
+  pub GPIO_Pin :uint32_t,              /*< Specifies the GPIO pins to be configured.
                                        This parameter can be any value of GPIO_pins_define */
 
-  GPIO_Mode :GPIOMode_TypeDef,     /*< Specifies the operating mode for the selected pins.
+  pub GPIO_Mode :GPIOMode_TypeDef,     /*< Specifies the operating mode for the selected pins.
                                        This parameter can be a value of GPIOMode_TypeDef */
 
-  GPIO_Speed :GPIOSpeed_TypeDef,   /*< Specifies the speed for the selected pins.
+  pub GPIO_Speed :GPIOSpeed_TypeDef,   /*< Specifies the speed for the selected pins.
                                        This parameter can be a value of GPIOSpeed_TypeDef */
 
-  GPIO_OType :GPIOOType_TypeDef,   /*< Specifies the operating output type for the selected pins.
+  pub GPIO_OType :GPIOOType_TypeDef,   /*< Specifies the operating output type for the selected pins.
                                        This parameter can be a value of GPIOOType_TypeDef */
 
-  GPIO_PuPd :GPIOPuPd_TypeDef     /*< Specifies the operating Pull-up/Pull down for the selected pins.
+  pub GPIO_PuPd :GPIOPuPd_TypeDef     /*< Specifies the operating Pull-up/Pull down for the selected pins.
                                        This parameter can be a value of GPIOPuPd_TypeDef */
 }
 
@@ -118,21 +118,21 @@ macro_rules! GPIO_Pin_All (() =>               (0xFFFFu16 as uint16_t);)  /* All
 
 macro_rules! IS_GPIO_PIN (($PIN:ident) => (((($PIN) & (0x00u16 as uint16_t)) == 0x00) && ((PIN) != (0x00u16 as uint16_t)));)
 macro_rules! IS_GET_GPIO_PIN (($PIN:ident) => ((($PIN) == GPIO_Pin_0!()) ||
-											   (($PIN) == GPIO_Pin_1!()) ||
-											   (($PIN) == GPIO_Pin_2!()) || 
-											   (($PIN) == GPIO_Pin_3!()) ||
-											   (($PIN) == GPIO_Pin_4!()) ||
-											   (($PIN) == GPIO_Pin_5!()) ||
-											   (($PIN) == GPIO_Pin_6!()) ||
-											   (($PIN) == GPIO_Pin_7!()) ||
-											   (($PIN) == GPIO_Pin_8!()) ||
-											   (($PIN) == GPIO_Pin_9!()) ||
-											   (($PIN) == GPIO_Pin_10!()) ||
-											   (($PIN) == GPIO_Pin_11!()) ||
-											   (($PIN) == GPIO_Pin_12!()) ||
-											   (($PIN) == GPIO_Pin_13!()) ||
-											   (($PIN) == GPIO_Pin_14!()) ||
-											   (($PIN) == GPIO_Pin_15!()));)
+                                               (($PIN) == GPIO_Pin_1!()) ||
+                                               (($PIN) == GPIO_Pin_2!()) || 
+                                               (($PIN) == GPIO_Pin_3!()) ||
+                                               (($PIN) == GPIO_Pin_4!()) ||
+                                               (($PIN) == GPIO_Pin_5!()) ||
+                                               (($PIN) == GPIO_Pin_6!()) ||
+                                               (($PIN) == GPIO_Pin_7!()) ||
+                                               (($PIN) == GPIO_Pin_8!()) ||
+                                               (($PIN) == GPIO_Pin_9!()) ||
+                                               (($PIN) == GPIO_Pin_10!()) ||
+                                               (($PIN) == GPIO_Pin_11!()) ||
+                                               (($PIN) == GPIO_Pin_12!()) ||
+                                               (($PIN) == GPIO_Pin_13!()) ||
+                                               (($PIN) == GPIO_Pin_14!()) ||
+                                               (($PIN) == GPIO_Pin_15!()));)
 /* GPIO_Pin_sources 
   */ 
 macro_rules! GPIO_PinSource0 (() =>            (0x00u8 as uint8_t);)
@@ -153,21 +153,21 @@ macro_rules! GPIO_PinSource14 (() =>           (0x0Eu8 as uint8_t);)
 macro_rules! GPIO_PinSource15 (() =>           (0x0Fu8 as uint8_t);)
 
 macro_rules! IS_GPIO_PIN_SOURCE (($PINSOURCE:ident) => ((($PINSOURCE) == GPIO_PinSource0!()) ||
-													    (($PINSOURCE) == GPIO_PinSource1!()) ||
-													    (($PINSOURCE) == GPIO_PinSource2!()) ||
-													    (($PINSOURCE) == GPIO_PinSource3!()) ||
-													    (($PINSOURCE) == GPIO_PinSource4!()) ||
-													    (($PINSOURCE) == GPIO_PinSource5!()) ||
-													    (($PINSOURCE) == GPIO_PinSource6!()) ||
-													    (($PINSOURCE) == GPIO_PinSource7!()) ||
-													    (($PINSOURCE) == GPIO_PinSource8!()) ||
-													    (($PINSOURCE) == GPIO_PinSource9!()) ||
-													    (($PINSOURCE) == GPIO_PinSource10!()) ||
-													    (($PINSOURCE) == GPIO_PinSource11!()) ||
-													    (($PINSOURCE) == GPIO_PinSource12!()) ||
-													    (($PINSOURCE) == GPIO_PinSource13!()) ||
-													    (($PINSOURCE) == GPIO_PinSource14!()) ||
-													    (($PINSOURCE) == GPIO_PinSource15!()));)
+                                                        (($PINSOURCE) == GPIO_PinSource1!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource2!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource3!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource4!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource5!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource6!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource7!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource8!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource9!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource10!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource11!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource12!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource13!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource14!()) ||
+                                                        (($PINSOURCE) == GPIO_PinSource15!()));)
 /* GPIO_Alternat_function_selection_define 
   */ 
 /* 
@@ -271,23 +271,23 @@ macro_rules! GPIO_AF_DCMI (() =>          (0x0Du8 as uint8_t);)  /* DCMI Alterna
 macro_rules! GPIO_AF_EVENTOUT (() =>      (0x0Fu8 as uint8_t);)  /* EVENTOUT Alternate Function mapping */
 
 macro_rules! IS_GPIO_AF (($AF:ident) =>  ((($AF) == GPIO_AF_RTC_50Hz!())  || (($AF) == GPIO_AF_TIM14!())  ||
-										  (($AF) == GPIO_AF_MCO!())       || (($AF) == GPIO_AF_TAMPER!()) ||
-										  (($AF) == GPIO_AF_SWJ!())       || (($AF) == GPIO_AF_TRACE!())  ||
-										  (($AF) == GPIO_AF_TIM1!())      || (($AF) == GPIO_AF_TIM2!())   ||
-										  (($AF) == GPIO_AF_TIM3!())      || (($AF) == GPIO_AF_TIM4!())   ||
-										  (($AF) == GPIO_AF_TIM5!())      || (($AF) == GPIO_AF_TIM8!())   ||
-										  (($AF) == GPIO_AF_I2C1!())      || (($AF) == GPIO_AF_I2C2!())   ||
-										  (($AF) == GPIO_AF_I2C3!())      || (($AF) == GPIO_AF_SPI1!())   ||
-										  (($AF) == GPIO_AF_SPI2!())      || (($AF) == GPIO_AF_TIM13!())  ||
-										  (($AF) == GPIO_AF_SPI3!())      || (($AF) == GPIO_AF_TIM14!())  ||
-										  (($AF) == GPIO_AF_USART1!())    || (($AF) == GPIO_AF_USART2!()) ||
-										  (($AF) == GPIO_AF_USART3!())    || (($AF) == GPIO_AF_UART4!())  ||
-										  (($AF) == GPIO_AF_UART5!())     || (($AF) == GPIO_AF_USART6!()) ||
-										  (($AF) == GPIO_AF_CAN1!())      || (($AF) == GPIO_AF_CAN2!())   ||
-										  (($AF) == GPIO_AF_OTG_FS!())    || (($AF) == GPIO_AF_OTG_HS!()) ||
-										  (($AF) == GPIO_AF_ETH!())       || (($AF) == GPIO_AF_FSMC!())   ||
-										  (($AF) == GPIO_AF_OTG_HS_FS!()) || (($AF) == GPIO_AF_SDIO!())   ||
-										  (($AF) == GPIO_AF_DCMI!())      || (($AF) == GPIO_AF_EVENTOUT!()));)
+                                          (($AF) == GPIO_AF_MCO!())       || (($AF) == GPIO_AF_TAMPER!()) ||
+                                          (($AF) == GPIO_AF_SWJ!())       || (($AF) == GPIO_AF_TRACE!())  ||
+                                          (($AF) == GPIO_AF_TIM1!())      || (($AF) == GPIO_AF_TIM2!())   ||
+                                          (($AF) == GPIO_AF_TIM3!())      || (($AF) == GPIO_AF_TIM4!())   ||
+                                          (($AF) == GPIO_AF_TIM5!())      || (($AF) == GPIO_AF_TIM8!())   ||
+                                          (($AF) == GPIO_AF_I2C1!())      || (($AF) == GPIO_AF_I2C2!())   ||
+                                          (($AF) == GPIO_AF_I2C3!())      || (($AF) == GPIO_AF_SPI1!())   ||
+                                          (($AF) == GPIO_AF_SPI2!())      || (($AF) == GPIO_AF_TIM13!())  ||
+                                          (($AF) == GPIO_AF_SPI3!())      || (($AF) == GPIO_AF_TIM14!())  ||
+                                          (($AF) == GPIO_AF_USART1!())    || (($AF) == GPIO_AF_USART2!()) ||
+                                          (($AF) == GPIO_AF_USART3!())    || (($AF) == GPIO_AF_UART4!())  ||
+                                          (($AF) == GPIO_AF_UART5!())     || (($AF) == GPIO_AF_USART6!()) ||
+                                          (($AF) == GPIO_AF_CAN1!())      || (($AF) == GPIO_AF_CAN2!())   ||
+                                          (($AF) == GPIO_AF_OTG_FS!())    || (($AF) == GPIO_AF_OTG_HS!()) ||
+                                          (($AF) == GPIO_AF_ETH!())       || (($AF) == GPIO_AF_FSMC!())   ||
+                                          (($AF) == GPIO_AF_OTG_HS_FS!()) || (($AF) == GPIO_AF_SDIO!())   ||
+                                          (($AF) == GPIO_AF_DCMI!())      || (($AF) == GPIO_AF_EVENTOUT!()));)
 
 /* GPIO_Legacy 
   */

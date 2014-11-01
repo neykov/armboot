@@ -4,7 +4,7 @@
 #![feature(globs)]
 #![feature(lang_items)]
 
-#![crate_id="blinky#0.3.2"]
+#![crate_name="blinky"]
 
 use zero::std_types::*;
 use libarm::stm32f4xx::*;

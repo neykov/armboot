@@ -102,7 +102,6 @@ pub type IRQn_Type = Enum_IRQn;
 pub type int32_t = c_int;
 pub type int16_t = c_short;
 pub type int8_t = c_schar;
-pub type uint32_t = c_uint;
 pub type uint16_t = c_ushort;
 pub type uint8_t = c_uchar;
 pub type s32 = int32_t;
@@ -6515,7 +6514,7 @@ pub struct NVICType {
 /*  end core_cm0.h */
  
 #[inline(always)]
-pub fn hw_ptr<T>(raw :u32) -> &mut T{
+pub fn hw_ptr<T>(raw :u32) -> &'static mut T{
     unsafe {
         &mut *(raw as *mut T)
     }
@@ -6526,172 +6525,172 @@ pub fn hw_ptr<T>(raw :u32) -> &mut T{
   */  
 
 #[inline(always)]
-pub fn TIM2() -> &mut TIMType {unsafe {&mut *(TIM2_BASE!() as *mut TIMType)}}
+pub fn TIM2() -> &'static mut TIMType {unsafe {&mut *(TIM2_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM3() -> &mut TIMType {unsafe {&mut *(TIM3_BASE!() as *mut TIMType)}}
+pub fn TIM3() -> &'static mut TIMType {unsafe {&mut *(TIM3_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM4() -> &mut TIMType {unsafe {&mut *(TIM4_BASE!() as *mut TIMType)}}
+pub fn TIM4() -> &'static mut TIMType {unsafe {&mut *(TIM4_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM5() -> &mut TIMType {unsafe {&mut *(TIM5_BASE!() as *mut TIMType)}}
+pub fn TIM5() -> &'static mut TIMType {unsafe {&mut *(TIM5_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM6() -> &mut TIMType {unsafe {&mut *(TIM6_BASE!() as *mut TIMType)}}
+pub fn TIM6() -> &'static mut TIMType {unsafe {&mut *(TIM6_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM7() -> &mut TIMType {unsafe {&mut *(TIM7_BASE!() as *mut TIMType)}}
+pub fn TIM7() -> &'static mut TIMType {unsafe {&mut *(TIM7_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM12() -> &mut TIMType {unsafe {&mut *(TIM12_BASE!() as *mut TIMType)}}
+pub fn TIM12() -> &'static mut TIMType {unsafe {&mut *(TIM12_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM13() -> &mut TIMType {unsafe {&mut *(TIM13_BASE!() as *mut TIMType)}}
+pub fn TIM13() -> &'static mut TIMType {unsafe {&mut *(TIM13_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM14() -> &mut TIMType {unsafe {&mut *(TIM14_BASE!() as *mut TIMType)}}
+pub fn TIM14() -> &'static mut TIMType {unsafe {&mut *(TIM14_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn RTC() -> &mut RTCType {unsafe {&mut *(RTC_BASE!() as *mut RTCType)}}
+pub fn RTC() -> &'static mut RTCType {unsafe {&mut *(RTC_BASE!() as *mut RTCType)}}
 #[inline(always)]
-pub fn WWDG() -> &mut WWDGType {unsafe {&mut *(WWDG_BASE!() as *mut WWDGType)}}
+pub fn WWDG() -> &'static mut WWDGType {unsafe {&mut *(WWDG_BASE!() as *mut WWDGType)}}
 #[inline(always)]
-pub fn IWDG() -> &mut IWDGType {unsafe {&mut *(IWDG_BASE!() as *mut IWDGType)}}
+pub fn IWDG() -> &'static mut IWDGType {unsafe {&mut *(IWDG_BASE!() as *mut IWDGType)}}
 #[inline(always)]
-pub fn I2S2ext() -> &mut SPIType {unsafe {&mut *(I2S2ext_BASE!() as *mut SPIType)}}
+pub fn I2S2ext() -> &'static mut SPIType {unsafe {&mut *(I2S2ext_BASE!() as *mut SPIType)}}
 #[inline(always)]
-pub fn SPI2() -> &mut SPIType {unsafe {&mut *(SPI2_BASE!() as *mut SPIType)}}
+pub fn SPI2() -> &'static mut SPIType {unsafe {&mut *(SPI2_BASE!() as *mut SPIType)}}
 #[inline(always)]
-pub fn SPI3() -> &mut SPIType {unsafe {&mut *(SPI3_BASE!() as *mut SPIType)}}
+pub fn SPI3() -> &'static mut SPIType {unsafe {&mut *(SPI3_BASE!() as *mut SPIType)}}
 #[inline(always)]
-pub fn I2S3ext() -> &mut SPIType {unsafe {&mut *(I2S3ext_BASE!() as *mut SPIType)}}
+pub fn I2S3ext() -> &'static mut SPIType {unsafe {&mut *(I2S3ext_BASE!() as *mut SPIType)}}
 #[inline(always)]
-pub fn USART2() -> &mut USARTType {unsafe {&mut *(USART2_BASE!() as *mut USARTType)}}
+pub fn USART2() -> &'static mut USARTType {unsafe {&mut *(USART2_BASE!() as *mut USARTType)}}
 #[inline(always)]
-pub fn USART3() -> &mut USARTType {unsafe {&mut *(USART3_BASE!() as *mut USARTType)}}
+pub fn USART3() -> &'static mut USARTType {unsafe {&mut *(USART3_BASE!() as *mut USARTType)}}
 #[inline(always)]
-pub fn UART4() -> &mut USARTType {unsafe {&mut *(UART4_BASE!() as *mut USARTType)}}
+pub fn UART4() -> &'static mut USARTType {unsafe {&mut *(UART4_BASE!() as *mut USARTType)}}
 #[inline(always)]
-pub fn UART5() -> &mut USARTType {unsafe {&mut *(UART5_BASE!() as *mut USARTType)}}
+pub fn UART5() -> &'static mut USARTType {unsafe {&mut *(UART5_BASE!() as *mut USARTType)}}
 #[inline(always)]
-pub fn I2C1() -> &mut I2CType {unsafe {&mut *(I2C1_BASE!() as *mut I2CType)}}
+pub fn I2C1() -> &'static mut I2CType {unsafe {&mut *(I2C1_BASE!() as *mut I2CType)}}
 #[inline(always)]
-pub fn I2C2() -> &mut I2CType {unsafe {&mut *(I2C2_BASE!() as *mut I2CType)}}
+pub fn I2C2() -> &'static mut I2CType {unsafe {&mut *(I2C2_BASE!() as *mut I2CType)}}
 #[inline(always)]
-pub fn I2C3() -> &mut I2CType {unsafe {&mut *(I2C3_BASE!() as *mut I2CType)}}
+pub fn I2C3() -> &'static mut I2CType {unsafe {&mut *(I2C3_BASE!() as *mut I2CType)}}
 #[inline(always)]
-pub fn CAN1() -> &mut CANType {unsafe {&mut *(CAN1_BASE!() as *mut CANType)}}
+pub fn CAN1() -> &'static mut CANType {unsafe {&mut *(CAN1_BASE!() as *mut CANType)}}
 #[inline(always)]
-pub fn CAN2() -> &mut CANType {unsafe {&mut *(CAN2_BASE!() as *mut CANType)}}
+pub fn CAN2() -> &'static mut CANType {unsafe {&mut *(CAN2_BASE!() as *mut CANType)}}
 #[inline(always)]
-pub fn PWR() -> &mut PWRType {unsafe {&mut *(PWR_BASE!() as *mut PWRType)}}
+pub fn PWR() -> &'static mut PWRType {unsafe {&mut *(PWR_BASE!() as *mut PWRType)}}
 #[inline(always)]
-pub fn DAC() -> &mut DACType {unsafe {&mut *(DAC_BASE!() as *mut DACType)}}
+pub fn DAC() -> &'static mut DACType {unsafe {&mut *(DAC_BASE!() as *mut DACType)}}
 #[inline(always)]
-pub fn TIM1() -> &mut TIMType {unsafe {&mut *(TIM1_BASE!() as *mut TIMType)}}
+pub fn TIM1() -> &'static mut TIMType {unsafe {&mut *(TIM1_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM8() -> &mut TIMType {unsafe {&mut *(TIM8_BASE!() as *mut TIMType)}}
+pub fn TIM8() -> &'static mut TIMType {unsafe {&mut *(TIM8_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn USART1() -> &mut USARTType {unsafe {&mut *(USART1_BASE!() as *mut USARTType)}}
+pub fn USART1() -> &'static mut USARTType {unsafe {&mut *(USART1_BASE!() as *mut USARTType)}}
 #[inline(always)]
-pub fn USART6() -> &mut USARTType {unsafe {&mut *(USART6_BASE!() as *mut USARTType)}}
+pub fn USART6() -> &'static mut USARTType {unsafe {&mut *(USART6_BASE!() as *mut USARTType)}}
 #[inline(always)]
-pub fn ADC() -> &mut ADC_CommonType {unsafe {&mut *(ADC_BASE!() as *mut ADC_CommonType)}}
+pub fn ADC() -> &'static mut ADC_CommonType {unsafe {&mut *(ADC_BASE!() as *mut ADC_CommonType)}}
 #[inline(always)]
-pub fn ADC1() -> &mut ADCType {unsafe {&mut *(ADC1_BASE!() as *mut ADCType)}}
+pub fn ADC1() -> &'static mut ADCType {unsafe {&mut *(ADC1_BASE!() as *mut ADCType)}}
 #[inline(always)]
-pub fn ADC2() -> &mut ADCType {unsafe {&mut *(ADC2_BASE!() as *mut ADCType)}}
+pub fn ADC2() -> &'static mut ADCType {unsafe {&mut *(ADC2_BASE!() as *mut ADCType)}}
 #[inline(always)]
-pub fn ADC3() -> &mut ADCType {unsafe {&mut *(ADC3_BASE!() as *mut ADCType)}}
+pub fn ADC3() -> &'static mut ADCType {unsafe {&mut *(ADC3_BASE!() as *mut ADCType)}}
 #[inline(always)]
-pub fn SDIO() -> &mut SDIOType {unsafe {&mut *(SDIO_BASE!() as *mut SDIOType)}}
+pub fn SDIO() -> &'static mut SDIOType {unsafe {&mut *(SDIO_BASE!() as *mut SDIOType)}}
 #[inline(always)]
-pub fn SPI1() -> &mut SPIType {unsafe {&mut *(SPI1_BASE!() as *mut SPIType)}}
+pub fn SPI1() -> &'static mut SPIType {unsafe {&mut *(SPI1_BASE!() as *mut SPIType)}}
 #[inline(always)]
-pub fn SYSCFG() -> &mut SYSCFGType {unsafe {&mut *(SYSCFG_BASE!() as *mut SYSCFGType)}}
+pub fn SYSCFG() -> &'static mut SYSCFGType {unsafe {&mut *(SYSCFG_BASE!() as *mut SYSCFGType)}}
 #[inline(always)]
-pub fn EXTI() -> &mut EXTIType {unsafe {&mut *(EXTI_BASE!() as *mut EXTIType)}}
+pub fn EXTI() -> &'static mut EXTIType {unsafe {&mut *(EXTI_BASE!() as *mut EXTIType)}}
 #[inline(always)]
-pub fn TIM9() -> &mut TIMType {unsafe {&mut *(TIM9_BASE!() as *mut TIMType)}}
+pub fn TIM9() -> &'static mut TIMType {unsafe {&mut *(TIM9_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM10() -> &mut TIMType {unsafe {&mut *(TIM10_BASE!() as *mut TIMType)}}
+pub fn TIM10() -> &'static mut TIMType {unsafe {&mut *(TIM10_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn TIM11() -> &mut TIMType {unsafe {&mut *(TIM11_BASE!() as *mut TIMType)}}
+pub fn TIM11() -> &'static mut TIMType {unsafe {&mut *(TIM11_BASE!() as *mut TIMType)}}
 #[inline(always)]
-pub fn GPIOA() -> &mut GPIOType {unsafe {&mut *(GPIOA_BASE!() as *mut GPIOType)}}
+pub fn GPIOA() -> &'static mut GPIOType {unsafe {&mut *(GPIOA_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOB() -> &mut GPIOType {unsafe {&mut *(GPIOB_BASE!() as *mut GPIOType)}}
+pub fn GPIOB() -> &'static mut GPIOType {unsafe {&mut *(GPIOB_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOC() -> &mut GPIOType {unsafe {&mut *(GPIOC_BASE!() as *mut GPIOType)}}
+pub fn GPIOC() -> &'static mut GPIOType {unsafe {&mut *(GPIOC_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOD() -> &mut GPIOType {unsafe {&mut *(GPIOD_BASE!() as *mut GPIOType)}}
+pub fn GPIOD() -> &'static mut GPIOType {unsafe {&mut *(GPIOD_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOE() -> &mut GPIOType {unsafe {&mut *(GPIOE_BASE!() as *mut GPIOType)}}
+pub fn GPIOE() -> &'static mut GPIOType {unsafe {&mut *(GPIOE_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOF() -> &mut GPIOType {unsafe {&mut *(GPIOF_BASE!() as *mut GPIOType)}}
+pub fn GPIOF() -> &'static mut GPIOType {unsafe {&mut *(GPIOF_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOG() -> &mut GPIOType {unsafe {&mut *(GPIOG_BASE!() as *mut GPIOType)}}
+pub fn GPIOG() -> &'static mut GPIOType {unsafe {&mut *(GPIOG_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOH() -> &mut GPIOType {unsafe {&mut *(GPIOH_BASE!() as *mut GPIOType)}}
+pub fn GPIOH() -> &'static mut GPIOType {unsafe {&mut *(GPIOH_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn GPIOI() -> &mut GPIOType {unsafe {&mut *(GPIOI_BASE!() as *mut GPIOType)}}
+pub fn GPIOI() -> &'static mut GPIOType {unsafe {&mut *(GPIOI_BASE!() as *mut GPIOType)}}
 #[inline(always)]
-pub fn CRC() -> &mut CRCType {unsafe {&mut *(CRC_BASE!() as *mut CRCType)}}
+pub fn CRC() -> &'static mut CRCType {unsafe {&mut *(CRC_BASE!() as *mut CRCType)}}
 #[inline(always)]
-pub fn RCC() -> &mut RCCType {unsafe {&mut *(RCC_BASE!() as *mut RCCType)}}
+pub fn RCC() -> &'static mut RCCType {unsafe {&mut *(RCC_BASE!() as *mut RCCType)}}
 #[inline(always)]
-pub fn FLASH() -> &mut FLASHType {unsafe {&mut *(FLASH_R_BASE!() as *mut FLASHType)}}
+pub fn FLASH() -> &'static mut FLASHType {unsafe {&mut *(FLASH_R_BASE!() as *mut FLASHType)}}
 #[inline(always)]
-pub fn DMA1() -> &mut DMAType {unsafe {&mut *(DMA1_BASE!() as *mut DMAType)}}
+pub fn DMA1() -> &'static mut DMAType {unsafe {&mut *(DMA1_BASE!() as *mut DMAType)}}
 #[inline(always)]
-pub fn DMA1_Stream0() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream0_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream0() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream0_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream1() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream1_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream1() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream1_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream2() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream2_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream2() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream2_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream3() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream3_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream3() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream3_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream4() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream4_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream4() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream4_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream5() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream5_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream5() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream5_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream6() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream6_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream6() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream6_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA1_Stream7() -> &mut DMA_StreamType {unsafe {&mut *(DMA1_Stream7_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA1_Stream7() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA1_Stream7_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2() -> &mut DMAType {unsafe {&mut *(DMA2_BASE!() as *mut DMAType)}}
+pub fn DMA2() -> &'static mut DMAType {unsafe {&mut *(DMA2_BASE!() as *mut DMAType)}}
 #[inline(always)]
-pub fn DMA2_Stream0() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream0_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream0() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream0_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream1() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream1_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream1() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream1_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream2() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream2_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream2() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream2_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream3() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream3_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream3() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream3_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream4() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream4_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream4() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream4_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream5() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream5_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream5() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream5_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream6() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream6_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream6() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream6_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn DMA2_Stream7() -> &mut DMA_StreamType {unsafe {&mut *(DMA2_Stream7_BASE!() as *mut DMA_StreamType)}}
+pub fn DMA2_Stream7() -> &'static mut DMA_StreamType {unsafe {&mut *(DMA2_Stream7_BASE!() as *mut DMA_StreamType)}}
 #[inline(always)]
-pub fn ETH() -> &mut ETHType {unsafe {&mut *(ETH_BASE!() as *mut ETHType)}}  
+pub fn ETH() -> &'static mut ETHType {unsafe {&mut *(ETH_BASE!() as *mut ETHType)}}
 #[inline(always)]
-pub fn DCMI() -> &mut DCMIType {unsafe {&mut *(DCMI_BASE!() as *mut DCMIType)}}
+pub fn DCMI() -> &'static mut DCMIType {unsafe {&mut *(DCMI_BASE!() as *mut DCMIType)}}
 #[inline(always)]
-pub fn CRYP() -> &mut CRYPType {unsafe {&mut *(CRYP_BASE!() as *mut CRYPType)}}
+pub fn CRYP() -> &'static mut CRYPType {unsafe {&mut *(CRYP_BASE!() as *mut CRYPType)}}
 #[inline(always)]
-pub fn HASH() -> &mut HASHType {unsafe {&mut *(HASH_BASE!() as *mut HASHType)}}
+pub fn HASH() -> &'static mut HASHType {unsafe {&mut *(HASH_BASE!() as *mut HASHType)}}
 #[inline(always)]
-pub fn RNG() -> &mut RNGType {unsafe {&mut *(RNG_BASE!() as *mut RNGType)}}
+pub fn RNG() -> &'static mut RNGType {unsafe {&mut *(RNG_BASE!() as *mut RNGType)}}
 #[inline(always)]
-pub fn FSMC_Bank1() -> &mut FSMC_Bank1Type {unsafe {&mut *(FSMC_Bank1_R_BASE!() as *mut FSMC_Bank1Type)}}
+pub fn FSMC_Bank1() -> &'static mut FSMC_Bank1Type {unsafe {&mut *(FSMC_Bank1_R_BASE!() as *mut FSMC_Bank1Type)}}
 #[inline(always)]
-pub fn FSMC_Bank1E() -> &mut FSMC_Bank1EType {unsafe {&mut *(FSMC_Bank1E_R_BASE!() as *mut FSMC_Bank1EType)}}
+pub fn FSMC_Bank1E() -> &'static mut FSMC_Bank1EType {unsafe {&mut *(FSMC_Bank1E_R_BASE!() as *mut FSMC_Bank1EType)}}
 #[inline(always)]
-pub fn FSMC_Bank2() -> &mut FSMC_Bank2Type {unsafe {&mut *(FSMC_Bank2_R_BASE!() as *mut FSMC_Bank2Type)}}
+pub fn FSMC_Bank2() -> &'static mut FSMC_Bank2Type {unsafe {&mut *(FSMC_Bank2_R_BASE!() as *mut FSMC_Bank2Type)}}
 #[inline(always)]
-pub fn FSMC_Bank3() -> &mut FSMC_Bank3Type {unsafe {&mut *(FSMC_Bank3_R_BASE!() as *mut FSMC_Bank3Type)}}
+pub fn FSMC_Bank3() -> &'static mut FSMC_Bank3Type {unsafe {&mut *(FSMC_Bank3_R_BASE!() as *mut FSMC_Bank3Type)}}
 #[inline(always)]
-pub fn FSMC_Bank4() -> &mut FSMC_Bank4Type {unsafe {&mut *(FSMC_Bank4_R_BASE!() as *mut FSMC_Bank4Type)}}
+pub fn FSMC_Bank4() -> &'static mut FSMC_Bank4Type {unsafe {&mut *(FSMC_Bank4_R_BASE!() as *mut FSMC_Bank4Type)}}
 #[inline(always)]
-pub fn DBGMCU() -> &mut DBGMCUType {unsafe {&mut *(DBGMCU_BASE!() as *mut DBGMCUType)}}
+pub fn DBGMCU() -> &'static mut DBGMCUType {unsafe {&mut *(DBGMCU_BASE!() as *mut DBGMCUType)}}
 
 #[inline(always)]
-pub fn NVIC() -> &mut NVICType {unsafe {&mut *(NVIC_BASE!() as *mut NVICType)}}
+pub fn NVIC() -> &'static mut NVICType {unsafe {&mut *(NVIC_BASE!() as *mut NVICType)}}
 

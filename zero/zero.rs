@@ -1,5 +1,5 @@
 #[lang="fail_bounds_check"]
-fn fail_bounds_check(_: &'static str, _: uint,
+fn fail_bounds_check(_: &(&'static str, uint),
                      _: uint, _: uint) -> ! {
     loop{}
 }
@@ -9,4 +9,7 @@ fn fail_bounds_check(_: &'static str, _: uint,
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
     loop{}
 }
+
+#[lang="sized"]
+trait Sized {}
 

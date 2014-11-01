@@ -8,8 +8,8 @@ The current version supports only static memory allocation and no stack pointer 
 Requirements:
 -------------
   * arm-none-eabi toolchain
-  * llvm-3.5 toolchain
-  * rustc (requires Rust 0.11)
+  * llvm-3.6 (nightly) toolchain
+  * rustc (requires Rust 0.12)
 
 Compiling:
 ----------

@@ -1,7 +1,6 @@
 #![macro_escape]
 
 use zero::std_types::*;
-use libarm::stm32f4xx::*;
 
 /* STM32F4xx_StdPeriph_Driver
   */

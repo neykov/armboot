@@ -1,7 +1,7 @@
 # Put your stlink folder here so make burn will work.
 STLINK=~/stlink.git
-RUSTC=/opt/rust-0.11/bin/rustc
-LLC=llc-3.5
+RUSTC=rustc
+LLC=llc-3.6
 
 # Put your source files here (or *.c, etc)
 SRCS=sys/system_stm32f4xx.c
@@ -31,7 +31,7 @@ all: clean proj
 proj: $(PROJ_NAME).elf
 
 blinky.s: main.rs
-	$(RUSTC) --target thumbv7em-unknown-linux-eabi --crate-type lib --emit ir -A uppercase_variables -A non_camel_case_types -A dead_code -A non_snake_case_functions main.rs
+	$(RUSTC) --target thumbv7em-unknown-linux-eabi --crate-type lib --emit ir -A non_camel_case_types -A dead_code -A non_snake_case main.rs
 	sed -i 's/"split-stack"/""/g' blinky.ll
 	$(LLC) -mtriple arm-none-eabi -march=thumb -mattr=+thumb2 -mcpu=cortex-m4 --float-abi=hard --asm-verbose=false blinky.ll -o=blinky.s
 

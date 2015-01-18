@@ -31,9 +31,7 @@ all: clean proj
 proj: $(PROJ_NAME).elf
 
 blinky.s: main.rs
-	$(RUSTC) --target thumbv7em-unknown-linux-eabi --crate-type lib --emit ir -A non_camel_case_types -A dead_code -A non_snake_case main.rs
-	sed -i 's/"split-stack"/""/g' blinky.ll
-	$(LLC) -mtriple arm-none-eabi -march=thumb -mattr=+thumb2 -mcpu=cortex-m4 --float-abi=hard --asm-verbose=false blinky.ll -o=blinky.s
+	$(RUSTC) --target target.json --emit asm -A non_camel_case_types -A dead_code -A non_snake_case main.rs
 
 $(PROJ_NAME).elf: $(SRCS) blinky.s
 	$(CC) $(CFLAGS) $^ -o $@ 

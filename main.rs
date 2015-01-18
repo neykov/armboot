@@ -1,8 +1,10 @@
-#![allow(ctypes)]
+#![allow(improper_ctypes)]
 #![no_std]
-#![feature(macro_rules)]
-#![feature(globs)]
+#![no_main]
 #![feature(lang_items)]
+#![feature(int_uint)] // update fail_bounds_check
+
+//extern crate libc
 
 #![crate_name="blinky"]
 
@@ -14,17 +16,17 @@ mod zero {
 	pub mod zero;
 }
 
+#[macro_use]
 mod libarm {
-	#![macro_escape]
-	pub mod stm32f4xx;
-	pub mod stm32f4xx_gpio;
-	pub mod stm32f4xx_rcc;
+	#[macro_use] pub mod stm32f4xx;
+	#[macro_use] pub mod stm32f4xx_gpio;
+	#[macro_use] pub mod stm32f4xx_rcc;
 }
 
-static LED_GREEN :uint = 12;
-static LED_ORANGE :uint = 13;
-static LED_RED :uint = 14;
-static LED_BLUE :uint = 15;
+const LED_GREEN :uint = 12;
+const LED_ORANGE :uint = 13;
+const LED_RED :uint = 14;
+const LED_BLUE :uint = 15;
 
 static LED :uint = LED_RED;
 
@@ -41,6 +43,7 @@ pub extern "C" fn TIM2_IRQHandler() {
    
 	TIM2.SR = 0x0; // reset the status register
 }
+
 
 #[no_mangle]
 pub extern "C" fn main()

@@ -4,9 +4,9 @@
 #![feature(lang_items)]
 #![feature(int_uint)] // update fail_bounds_check
 
-//extern crate libc
-
 #![crate_name="blinky"]
+
+//extern crate libc;
 
 use zero::std_types::*;
 use libarm::stm32f4xx::*;
@@ -64,7 +64,7 @@ pub extern "C" fn main()
 	RCC.APB1ENR |= RCC_APB1ENR_TIM2EN!(); // enable TIM2 clock
     
 	//
-	//  Initilaise x`the GPIO port.
+	//  Initialise the GPIO port.
 	//
 	GPIOD.MODER |= mode;
 	GPIOD.OSPEEDR |= speed;

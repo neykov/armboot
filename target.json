@@ -8,11 +8,12 @@
 "os": "none",
 "cpu": "cortex-m4",
 "features": "+thumb2",
-"relocation-model": "pic",
+"relocation-model": "static",
 "linker-is-gnu": true,
 "has-rpath": true,
-"pre-link-args": "-mthumb",
 "morestack": false,
-"executables": true
+"disable-redzone": true,
+"executables": true,
+"dynamic_linking": false
 }
 

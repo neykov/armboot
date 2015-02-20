@@ -18,12 +18,16 @@ fn panic_bounds_check(_: &(&'static str, uint),
     loop{}
 }
 
+#[lang="phantom_fn"]
+pub trait PhantomFn<A:?Sized,R:?Sized=()> { }
+pub trait MarkerTrait : PhantomFn<Self> { }
+
 #[lang = "sized"]
-pub trait Sized {}
+pub trait Sized : MarkerTrait {}
 
 #[lang = "copy"]
-pub trait Copy {}
+pub trait Copy : MarkerTrait {}
 
 #[lang="sync"]
-pub trait Sync {}
+pub trait Sync : MarkerTrait {}
 

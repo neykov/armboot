@@ -3,7 +3,7 @@
 "llvm-target": "thumbv7em-unknown-none-eabihf",
 "linker": "arm-none-eabi-gcc",
 "target-endian": "little",
-"target-word-size": "32",
+"target-pointer-width": "32",
 "arch": "arm",
 "os": "none",
 "cpu": "cortex-m4",

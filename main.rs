@@ -3,6 +3,7 @@
 #![no_main]
 #![feature(lang_items)]
 #![feature(int_uint)] // update fail_bounds_check
+#![feature(no_std)]
 
 #![crate_name="blinky"]
 

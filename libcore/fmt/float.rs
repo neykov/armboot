@@ -1,0 +1,336 @@
+// Copyright 2013-2014 The Rust Project Developers. See the COPYRIGHT
+// file at the top-level directory of this distribution and at
+// http://rust-lang.org/COPYRIGHT.
+//
+// Licensed under the Apache License, Version 2.0 <LICENSE-APACHE or
+// http://www.apache.org/licenses/LICENSE-2.0> or the MIT license
+// <LICENSE-MIT or http://opensource.org/licenses/MIT>, at your
+// option. This file may not be copied, modified, or distributed
+// except according to those terms.
+
+#![allow(missing_docs)]
+
+pub use self::ExponentFormat::*;
+pub use self::SignificantDigits::*;
+pub use self::SignFormat::*;
+
+use char;
+use char::CharExt;
+use fmt;
+use iter::Iterator;
+use num::{cast, Float, ToPrimitive};
+use num::FpCategory as Fp;
+use ops::FnOnce;
+use result::Result::Ok;
+use slice::{self, SliceExt};
+use str::{self, StrExt};
+
+/// A flag that specifies whether to use exponential (scientific) notation.
+pub enum ExponentFormat {
+    /// Do not use exponential notation.
+    ExpNone,
+    /// Use exponential notation with the exponent having a base of 10 and the
+    /// exponent sign being `e` or `E`. For example, 1000 would be printed
+    /// 1e3.
+    ExpDec
+}
+
+/// The number of digits used for emitting the fractional part of a number, if
+/// any.
+pub enum SignificantDigits {
+    /// At most the given number of digits will be printed, truncating any
+    /// trailing zeroes.
+    DigMax(usize),
+
+    /// Precisely the given number of digits will be printed.
+    DigExact(usize)
+}
+
+/// How to emit the sign of a number.
+pub enum SignFormat {
+    /// `-` will be printed for negative values, but no sign will be emitted
+    /// for positive numbers.
+    SignNeg
+}
+
+const DIGIT_E_RADIX: u32 = ('e' as u32) - ('a' as u32) + 11;
+
+/// Converts a number to its string representation as a byte vector.
+/// This is meant to be a common base implementation for all numeric string
+/// conversion functions like `to_string()` or `to_str_radix()`.
+///
+/// # Arguments
+///
+/// - `num`           - The number to convert. Accepts any number that
+///                     implements the numeric traits.
+/// - `radix`         - Base to use. Accepts only the values 2-36. If the exponential notation
+///                     is used, then this base is only used for the significand. The exponent
+///                     itself always printed using a base of 10.
+/// - `negative_zero` - Whether to treat the special value `-0` as
+///                     `-0` or as `+0`.
+/// - `sign`          - How to emit the sign. See `SignFormat`.
+/// - `digits`        - The amount of digits to use for emitting the fractional
+///                     part, if any. See `SignificantDigits`.
+/// - `exp_format`   - Whether or not to use the exponential (scientific) notation.
+///                    See `ExponentFormat`.
+/// - `exp_capital`   - Whether or not to use a capital letter for the exponent sign, if
+///                     exponential notation is desired.
+/// - `f`             - A closure to invoke with the bytes representing the
+///                     float.
+///
+/// # Panics
+///
+/// - Panics if `radix` < 2 or `radix` > 36.
+/// - Panics if `radix` > 14 and `exp_format` is `ExpDec` due to conflict
+///   between digit and exponent sign `'e'`.
+/// - Panics if `radix` > 25 and `exp_format` is `ExpBin` due to conflict
+///   between digit and exponent sign `'p'`.
+pub fn float_to_str_bytes_common<T: Float, U, F>(
+    num: T,
+    radix: u32,
+    negative_zero: bool,
+    sign: SignFormat,
+    digits: SignificantDigits,
+    exp_format: ExponentFormat,
+    exp_upper: bool,
+    f: F
+) -> U where
+    F: FnOnce(&str) -> U,
+{
+    assert!(2 <= radix && radix <= 36);
+    match exp_format {
+        ExpDec if radix >= DIGIT_E_RADIX       // decimal exponent 'e'
+          => panic!("float_to_str_bytes_common: radix {} incompatible with \
+                    use of 'e' as decimal exponent", radix),
+        _ => ()
+    }
+
+    let _0: T = Float::zero();
+    let _1: T = Float::one();
+
+    match num.classify() {
+        Fp::Nan => return f("NaN"),
+        Fp::Infinite if num > _0 => {
+            return f("inf");
+        }
+        Fp::Infinite if num < _0 => {
+            return f("-inf");
+        }
+        _ => {}
+    }
+
+    let neg = num < _0 || (negative_zero && _1 / num == Float::neg_infinity());
+    // For an f64 the exponent is in the range of [-1022, 1023] for base 2, so
+    // we may have up to that many digits. Give ourselves some extra wiggle room
+    // otherwise as well.
+    let mut buf = [0; 1536];
+    let mut end = 0;
+    let radix_gen: T = cast(radix as isize).unwrap();
+
+    let (num, exp) = match exp_format {
+        ExpNone => (num, 0),
+        ExpDec if num == _0 => (num, 0),
+        ExpDec => {
+            let (exp, exp_base) = match exp_format {
+                ExpDec => (num.abs().log10().floor(), cast::<f64, T>(10.0f64).unwrap()),
+                ExpNone => panic!("unreachable"),
+            };
+
+            (num / exp_base.powf(exp), cast::<T, i32>(exp).unwrap())
+        }
+    };
+
+    // First emit the non-fractional part, looping at least once to make
+    // sure at least a `0` gets emitted.
+    let mut deccum = num.trunc();
+    loop {
+        // Calculate the absolute value of each digit instead of only
+        // doing it once for the whole number because a
+        // representable negative number doesn't necessary have an
+        // representable additive inverse of the same type
+        // (See twos complement). But we assume that for the
+        // numbers [-35 .. 0] we always have [0 .. 35].
+        let current_digit = (deccum % radix_gen).abs();
+
+        // Decrease the deccumulator one digit at a time
+        deccum = deccum / radix_gen;
+        deccum = deccum.trunc();
+
+        let c = char::from_digit(current_digit.to_isize().unwrap() as u32, radix);
+        buf[end] = c.unwrap() as u8;
+        end += 1;
+
+        // No more digits to calculate for the non-fractional part -> break
+        if deccum == _0 { break; }
+    }
+
+    // If limited digits, calculate one digit more for rounding.
+    let (limit_digits, digit_count, exact) = match digits {
+        DigMax(count)   => (true, count + 1, false),
+        DigExact(count) => (true, count + 1, true)
+    };
+
+    // Decide what sign to put in front
+    match sign {
+        SignNeg if neg => {
+            buf[end] = b'-';
+            end += 1;
+        }
+        _ => ()
+    }
+
+    buf[..end].reverse();
+
+    // Remember start of the fractional digits.
+    // Points one beyond end of buf if none get generated,
+    // or at the '.' otherwise.
+    let start_fractional_digits = end;
+
+    // Now emit the fractional part, if any
+    deccum = num.fract();
+    if deccum != _0 || (limit_digits && exact && digit_count > 0) {
+        buf[end] = b'.';
+        end += 1;
+        let mut dig = 0;
+
+        // calculate new digits while
+        // - there is no limit and there are digits left
+        // - or there is a limit, it's not reached yet and
+        //   - it's exact
+        //   - or it's a maximum, and there are still digits left
+        while (!limit_digits && deccum != _0)
+           || (limit_digits && dig < digit_count && (
+                   exact
+                || (!exact && deccum != _0)
+              )
+        ) {
+            // Shift first fractional digit into the integer part
+            deccum = deccum * radix_gen;
+
+            // Calculate the absolute value of each digit.
+            // See note in first loop.
+            let current_digit = deccum.trunc().abs();
+
+            let c = char::from_digit(current_digit.to_isize().unwrap() as u32,
+                                     radix);
+            buf[end] = c.unwrap() as u8;
+            end += 1;
+
+            // Decrease the deccumulator one fractional digit at a time
+            deccum = deccum.fract();
+            dig += 1;
+        }
+
+        // If digits are limited, and that limit has been reached,
+        // cut off the one extra digit, and depending on its value
+        // round the remaining ones.
+        if limit_digits && dig == digit_count {
+            let ascii2value = |chr: u8| {
+                (chr as char).to_digit(radix).unwrap()
+            };
+            let value2ascii = |val: u32| {
+                char::from_digit(val, radix).unwrap() as u8
+            };
+
+            let extra_digit = ascii2value(buf[end - 1]);
+            end -= 1;
+            if extra_digit >= radix / 2 { // -> need to round
+                let mut i: isize = end as isize - 1;
+                loop {
+                    // If reached left end of number, have to
+                    // insert additional digit:
+                    if i < 0
+                    || buf[i as usize] == b'-'
+                    || buf[i as usize] == b'+' {
+                        for j in (i as usize + 1..end).rev() {
+                            buf[j + 1] = buf[j];
+                        }
+                        buf[(i + 1) as usize] = value2ascii(1);
+                        end += 1;
+                        break;
+                    }
+
+                    // Skip the '.'
+                    if buf[i as usize] == b'.' { i -= 1; continue; }
+
+                    // Either increment the digit,
+                    // or set to 0 if max and carry the 1.
+                    let current_digit = ascii2value(buf[i as usize]);
+                    if current_digit < (radix - 1) {
+                        buf[i as usize] = value2ascii(current_digit+1);
+                        break;
+                    } else {
+                        buf[i as usize] = value2ascii(0);
+                        i -= 1;
+                    }
+                }
+            }
+        }
+    }
+
+    // if number of digits is not exact, remove all trailing '0's up to
+    // and including the '.'
+    if !exact {
+        let buf_max_i = end - 1;
+
+        // index to truncate from
+        let mut i = buf_max_i;
+
+        // discover trailing zeros of fractional part
+        while i > start_fractional_digits && buf[i] == b'0' {
+            i -= 1;
+        }
+
+        // Only attempt to truncate digits if buf has fractional digits
+        if i >= start_fractional_digits {
+            // If buf ends with '.', cut that too.
+            if buf[i] == b'.' { i -= 1 }
+
+            // only resize buf if we actually remove digits
+            if i < buf_max_i {
+                end = i + 1;
+            }
+        }
+    } // If exact and trailing '.', just cut that
+    else {
+        let max_i = end - 1;
+        if buf[max_i] == b'.' {
+            end = max_i;
+        }
+    }
+
+    match exp_format {
+        ExpNone => {},
+        _ => {
+            buf[end] = match exp_format {
+                ExpDec if exp_upper => 'E',
+                ExpDec if !exp_upper => 'e',
+                _ => panic!("unreachable"),
+            } as u8;
+            end += 1;
+
+            struct Filler<'a> {
+                buf: &'a mut [u8],
+                end: &'a mut usize,
+            }
+
+            impl<'a> fmt::Write for Filler<'a> {
+                fn write_str(&mut self, s: &str) -> fmt::Result {
+                    slice::bytes::copy_memory(s.as_bytes(),
+                                              &mut self.buf[(*self.end)..]);
+                    *self.end += s.len();
+                    Ok(())
+                }
+            }
+
+            let mut filler = Filler { buf: &mut buf, end: &mut end };
+            match sign {
+                SignNeg => {
+                    let _ = fmt::write(&mut filler, format_args!("{:-}", exp));
+                }
+            }
+        }
+    }
+
+    f(unsafe { str::from_utf8_unchecked(&buf[..end]) })
+}

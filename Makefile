@@ -43,7 +43,7 @@ libcompiler-rt.a: $(OBJS)
 	$(AR) rcs $@ $(OBJS)
 
 blinky.elf: main.rs libcompiler-rt.a
-	$(RUSTC) --target target.json -A non_camel_case_types -A dead_code -A non_snake_case main.rs -C link-args="$(LDFLAGS)" -L. -o $@ -Z print-link-args
+	$(RUSTC) --target target.json -A non_camel_case_types -A dead_code -A non_snake_case main.rs -C link-args="$(LDFLAGS)" -L. -Z no-landing-pads -o $@ -Z print-link-args
 
 $(PROJ_NAME).hex: blinky.elf
 	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex

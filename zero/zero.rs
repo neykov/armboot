@@ -1,33 +1,30 @@
-#[lang="fail_bounds_check"]
-fn fail_bounds_check(_: &(&'static str, uint),
-                     _: uint, _: uint) -> ! {
-    loop{}
-}
-
 //override system abort to avoid pulling in memory allocation dependencies
+extern crate core;
+
 #[no_mangle]
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
     loop{}
 }
 
-
-#[cold] #[inline(never)]
-#[lang="panic_bounds_check"]
-fn panic_bounds_check(_: &(&'static str, uint),
-                     _: uint, _: uint) -> ! {
+#[no_mangle]
+pub extern "C" fn __aeabi_unwind_cpp_pr1() {
     loop{}
 }
 
-#[lang="phantom_fn"]
-pub trait PhantomFn<A:?Sized,R:?Sized=()> { }
-pub trait MarkerTrait : PhantomFn<Self> { }
+#[no_mangle]
+pub extern "C" fn abort() {
+    loop{}
+}
 
-#[lang = "sized"]
-pub trait Sized : MarkerTrait {}
+//#[lang="stack_exhausted"]
+//extern fn stack_exhausted() {}
 
-#[lang = "copy"]
-pub trait Copy : MarkerTrait {}
+#[lang="eh_personality"]
+extern fn eh_personality() {}
 
-#[lang="sync"]
-pub trait Sync : MarkerTrait {}
+#[lang = "panic_fmt"]
+pub extern fn rust_begin_unwind(_: core::fmt::Arguments,
+                                _: &'static str, _: usize) -> ! {
+    loop{}
+}
 

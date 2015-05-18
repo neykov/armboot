@@ -1,13 +1,17 @@
 #![allow(improper_ctypes)]
+#![feature(lang_items)]
+#![feature(no_std)]
+#![feature(core, libc)]
 #![no_std]
 #![no_main]
-#![feature(lang_items)]
-#![feature(int_uint)] // update fail_bounds_check
-#![feature(no_std)]
 
 #![crate_name="blinky"]
 
 //extern crate libc;
+extern crate core;
+
+//mod core;
+pub use core::prelude::*;
 
 use zero::std_types::*;
 use libarm::stm32f4xx::*;
@@ -24,12 +28,12 @@ mod libarm {
 	#[macro_use] pub mod stm32f4xx_rcc;
 }
 
-const LED_GREEN :uint = 12;
-const LED_ORANGE :uint = 13;
-const LED_RED :uint = 14;
-const LED_BLUE :uint = 15;
+const LED_GREEN :u32 = 12;
+const LED_ORANGE :u32 = 13;
+const LED_RED :u32 = 14;
+const LED_BLUE :u32 = 15;
 
-static LED :uint = LED_RED;
+static LED :u32 = LED_RED;
 
 #[no_mangle]
 pub extern "C" fn TIM2_IRQHandler() {
@@ -59,7 +63,7 @@ pub extern "C" fn main()
 	let speed = GPIO_Speed_100MHz!() << (pin * 2);
 	let otype = GPIO_OType_PP!() << pin;
 	let pullup = GPIO_PuPd_NOPULL!() << (pin * 2);
-	let irq_en = 1 << (TIM2_IRQn!() as uint);
+	let irq_en = 1 << (TIM2_IRQn!() as u32);
 
 	RCC.AHB1ENR |= RCC_AHB1ENR_GPIODEN!(); // enable the clock to GPIOD
 	RCC.APB1ENR |= RCC_APB1ENR_TIM2EN!(); // enable TIM2 clock

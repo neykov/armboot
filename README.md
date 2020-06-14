@@ -1,7 +1,12 @@
 armboot
 =======
-A template project for using the Rust language on bare metal STM32F4xx ARM microcontrollers.
+
+A testbed project used for porting the Rust language to bare metal STM32F4xx ARM microcontrollers.
 Tested on STM32F4DISCOVERY.
+
+The project resulted in patches to the [Rust compiler](https://github.com/rust-lang/llvm/pull/4
+) and eventually to [LLVM](https://github.com/llvm-mirror/llvm/commit/af48fc4136b1fca9b0542bc858a3bddbf87dcc02
+) to add support for segmented stacks to the platform.
 
 The current version supports only static memory allocation and no stack pointer safety checks.
 
